@@ -74,7 +74,7 @@ class must-have {
   }
 
   exec { "download_solr":
-    command => "curl -L http://apache.komsys.org/lucene/solr/4.7.0/solr-4.7.0.tgz | tar zx --directory=/vagrant/solr --strip-components 1",
+    command => "curl -L http://archive.apache.org/dist/lucene/solr/4.7.0/solr-4.7.0.tgz | tar zx --directory=/vagrant/solr --strip-components 1",
     cwd => "/vagrant",
     user => "vagrant",
     path => "/usr/bin/:/bin/",
