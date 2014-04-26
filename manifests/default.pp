@@ -44,6 +44,7 @@ class must-have {
     require => Package["curl"],
     before => Package["oracle-java7-installer"],
     logoutput => true,
+    # onlyif => "java -version 2>/tmp/java_version && grep '^java.version..1.7.*' /tmp/java_version"
   }
 
   #exec { 'solr-download-drupal-module':
@@ -66,6 +67,7 @@ class must-have {
     path => "/usr/bin/:/bin/",
     creates => '/vagrant/apachesolr',
     require => Exec["download_solr"],
+    onlyif => "/usr/bin/test ! -d /vagrant/apachesolr"
   }
 
   file { "/vagrant/solr":
@@ -80,7 +82,8 @@ class must-have {
     path => "/usr/bin/:/bin/",
     require => Exec["accept_license"],
     logoutput => true,
-    timeout => '0'
+    timeout => '0',
+    onlyif => "/usr/bin/test ! -d /vagrant/solr/dist"
   }
 
   file { "/etc/init/solr.conf":

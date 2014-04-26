@@ -3,6 +3,13 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
+  enable_nfs = false
+  if !Vagrant::Util::Platform.windows?
+    enable_nfs = true
+  end
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = false
+  end
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
   config.vm.network :forwarded_port, guest: 8983, host: 8983
   config.vm.provision :puppet, :module_path => "modules" do |puppet|
