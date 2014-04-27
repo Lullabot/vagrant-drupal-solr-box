@@ -18,6 +18,7 @@ class must-have {
   exec { 'apt-get update 2':
     command => '/usr/bin/apt-get update',
     require => [ Apt::Ppa["ppa:webupd8team/java"], Package["git-core"] ],
+    onlyif => ["/usr/bin/test ! -f /usr/bin/java"]
   }
 
   package { ["vim", "curl", "git-core", "bash"]:
@@ -44,6 +45,7 @@ class must-have {
     require => Package["curl"],
     before => Package["oracle-java7-installer"],
     logoutput => true,
+    onlyif => ["/usr/bin/test ! -f /usr/bin/java"]
   }
 
   #exec { 'solr-download-drupal-module':
@@ -66,6 +68,7 @@ class must-have {
     path => "/usr/bin/:/bin/",
     creates => '/vagrant/apachesolr',
     require => Exec["download_solr"],
+    onlyif => "/usr/bin/test ! -d /vagrant/apachesolr"
   }
 
   file { "/vagrant/solr":
@@ -80,7 +83,8 @@ class must-have {
     path => "/usr/bin/:/bin/",
     require => Exec["accept_license"],
     logoutput => true,
-    timeout => '0'
+    timeout => '0',
+    onlyif => "/usr/bin/test ! -d /vagrant/solr/dist"
   }
 
   file { "/etc/init/solr.conf":
