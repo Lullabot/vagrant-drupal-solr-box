@@ -18,6 +18,7 @@ class must-have {
   exec { 'apt-get update 2':
     command => '/usr/bin/apt-get update',
     require => [ Apt::Ppa["ppa:webupd8team/java"], Package["git-core"] ],
+    onlyif => ["/usr/bin/test ! -f /usr/bin/java"]
   }
 
   package { ["vim", "curl", "git-core", "bash"]:
@@ -44,7 +45,7 @@ class must-have {
     require => Package["curl"],
     before => Package["oracle-java7-installer"],
     logoutput => true,
-    # onlyif => "java -version 2>/tmp/java_version && grep '^java.version..1.7.*' /tmp/java_version"
+    onlyif => ["/usr/bin/test ! -f /usr/bin/java"]
   }
 
   #exec { 'solr-download-drupal-module':

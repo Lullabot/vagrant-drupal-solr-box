@@ -175,5 +175,5 @@ pip-log.txt
 
 .vagrant
 solr
-apachesolr-7.x-1.x-dev.tar.gz
+apachesolr-*
 apachesolr
